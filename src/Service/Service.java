@@ -1,5 +1,6 @@
 package Service;
 
+import DAO.FlightDB;
 import Flights.Flights;
 
 import java.util.Scanner;
@@ -7,11 +8,10 @@ import java.util.Scanner;
 public class Service {
 
     public void service(int item){
-
-        Flights flights = new Flights(1, 100, 56,"11/02/2019","11:00","Kiev", "Baku");
-        Flights flights1 = new Flights(2, 100, 56,"11/02/2019","11:00","Kiev", "Istanbul");
+        FlightDB flightDB = new FlightDB();
         Scanner scanner = new Scanner(System.in);
         boolean q = false;
+        int id;
         do {
             System.out.println("Please select a menu item by typing corresponding number from 1-6:\n");
             item = scanner.nextInt();
@@ -19,11 +19,14 @@ public class Service {
                 case 1:
                     //Online-board
                     System.out.println("\n---Online Board---");
-                    System.out.println(flights.toString());
+                    System.out.println(flightDB.toString());
                     break;
                 case 2:
                     //flight
                     System.out.println("\n---Flight info---");
+                    System.out.println("Please enter flight id:\n");
+                    id = scanner.nextInt();
+                    System.out.println(flightDB.byId(id));
                     break;
                 case 3:
                     //search and book a flight
