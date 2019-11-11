@@ -1,63 +1,113 @@
 package Flights;
 
-public class Flights {
-    private int id;
-    private int seats_all;
-    private int seats_free;
-    private String date;
-    private String time;
-    private String cityFrom;
-    private String cityTo;
+import DAO.FlightsDAO;
+import DAO.Identifiable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
-    public Flights(int id, int seats_all, int seats_free, String date, String time, String cityFrom, String cityTo) {
-        this.id = id;
-        this.seats_all = seats_all;
-        this.seats_free = seats_free;
-        this.date = date;
-        this.time = time;
-        this.cityFrom = cityFrom;
-        this.cityTo = cityTo;
+public class Flights implements Identifiable<String> {
+    private LocalDateTime dateTime;
+    private LocalDateTime arrivalDateTime;
+    private String departureCity;
+    private String destination;
+    private String id;
+    private int capasity;
+    private int bookedSits;
+
+    public Flights() {
     }
 
-    public int getId() {
+    public Flights(LocalDateTime dateTime, String departureCity, String destination, int capasity) {
+        this.dateTime = dateTime;
+        this.departureCity = departureCity;
+        this.destination = destination;
+        this.id = setID();
+        this.capasity = capasity;
+        arrivalDateTime = dateTime.plusMinutes((long) Math.random() * 300 + 60);
+    }
+
+
+    public LocalDate getDate() {
+        return LocalDate.from(dateTime);
+    }
+
+    public LocalDateTime getDepDateTime() {
+        return dateTime;
+    }
+
+    public LocalDateTime getArrDateTime() {
+        return arrivalDateTime;
+    }
+
+    public String getDepTime() {
+        return LocalTime.from(dateTime).format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    public String getArrTime() {
+        return LocalTime.from(arrivalDateTime).format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    private String setID() {
+        return "" + departureCity.substring(0, 3).toUpperCase() + destination.substring(0, 3).toUpperCase() + dateTime.getMonthValue() + dateTime.getDayOfMonth() + dateTime.getHour() + dateTime.getMinute();
+    }
+
+    public int getFreeSits() {
+        return capasity - bookedSits;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getDepartureCity() {
+        return departureCity;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String id() {
         return id;
     }
 
-    public int getSeats_all() {
-        return seats_all;
+    public int getCapasity() {
+        return capasity;
     }
 
-    public int getSeats_free() {
-        return seats_free;
+    public void setBookedSits(int bookedSits) {
+        this.bookedSits = bookedSits;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getCityFrom() {
-        return cityFrom;
-    }
-
-    public String getCityTo() {
-        return cityTo;
+    public int getBookedSits() {
+        return bookedSits;
     }
 
     @Override
     public String toString() {
-        return "Flights{" +
-                "id=" + id +
-                ", seats_all=" + seats_all +
-                ", seats_free=" + seats_free +
-                ", date=" + date +
-                ", time=" + time +
-                ", cityFrom='" + cityFrom + '\'' +
-                ", cityTo='" + cityTo + '\'' +
-                '}';
+        String str = String.format("%-16s%-12s%-10s%-10s%-15s%-15s", id, getDate(), getDepTime(), getArrTime(), departureCity, destination);
+        return str;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flights flight = (Flights) o;
+        return capasity == flight.capasity &&
+                Objects.equals(dateTime, flight.dateTime) &&
+                Objects.equals(departureCity, flight.departureCity) &&
+                Objects.equals(destination, flight.destination) &&
+                Objects.equals(id, flight.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dateTime, departureCity, destination, id);
+    }
+
 }
