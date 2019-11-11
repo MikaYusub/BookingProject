@@ -13,11 +13,11 @@ public class FlightDB {
         if (flights1.getId() == id){
             return flights1.toString();
         }
-        return null;
+        return "Wrong flight id";
     }
 
     @Override
     public String toString() {
-        return flights.toString() + flights1.toString();
+        return flights.toString() + "\n" + flights1.toString();
     }
 }
