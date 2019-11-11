@@ -1,8 +1,5 @@
 package Flights;
 
-import java.sql.Time;
-import java.util.Date;
-
 public class Flights {
     private int id;
     private int seats_all;
