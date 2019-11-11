@@ -6,9 +6,11 @@ import java.util.Scanner;
 
 public class Console {
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
+        Flights flights = new Flights(1, 100, 56,"11/02/2019","11:00","Kiev", "Baku");
+        Flights flights1 = new Flights(2, 100, 56,"11/02/2019","11:00","Kiev", "Istanbul");
         int item;
+        int id;
         boolean q = false;
 
         System.out.println("___MENU___");
@@ -26,13 +28,15 @@ public class Console {
                 case 1:
                     //Online-board
                     System.out.println("\n---Online Board---");
-                    Flights flights = new Flights(1, 100, "Kiev", "Baku");
                     System.out.println(flights.toString());
-
                     break;
                 case 2:
                     //flight
                     System.out.println("\n---Flight info---");
+                    id = scanner.nextInt();
+                    if (flights.getId() == id){
+
+                    }
                     break;
                 case 3:
                     //search and book a flight
